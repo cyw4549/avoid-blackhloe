@@ -245,7 +245,9 @@
       <button id="musicToggle">BGM 재생</button>
       <div class="hint">버튼을 눌러 유튜브 음악을 켜거나 끌 수 있습니다.</div>
     </div>
-    <iframe id="bgmFrame" class="bgm-frame" src="" allow="autoplay; encrypted-media; fullscreen"></iframe>
+    <audio id="bgm" loop>
+    <source src="bgm.mp3" type="audio/mpeg">
+     </audio>
   </div>
 
   <div class="shop-overlay" id="shopOverlay">
@@ -271,12 +273,13 @@
     const shieldGaugeEl = document.getElementById('shieldGauge');
     const restartBtn = document.getElementById('restartBtn');
     const musicToggle = document.getElementById('musicToggle');
-    const bgmFrame = document.getElementById('bgmFrame');
+    const bgm = document.getElementById('bgm');
     const shopOverlay = document.getElementById('shopOverlay');
     const shopList = document.getElementById('shopList');
     const shopMoney = document.getElementById('shopMoney');
     const closeShopBtn = document.getElementById('closeShopBtn');
-    const musicUrl = 'https://www.youtube.com/embed/ibbxPim795M?autoplay=1&mute=0&controls=1&loop=1&playlist=ibbxPim795M&rel=0&modestbranding=1&playsinline=1';
+
+
     let musicPlaying = false;
     let audioContext;
     let alarmGain;
@@ -997,16 +1000,17 @@ ctx.fillText(message, canvas.width / 2, canvas.height / 2 - 20);
     });
 
     musicToggle.addEventListener('click', () => {
-      musicPlaying = !musicPlaying;
-      if (musicPlaying) {
-        bgmFrame.src = musicUrl;
-        musicToggle.textContent = 'BGM 중지';
-      } else {
-        bgmFrame.src = '';
-        musicToggle.textContent = 'BGM 재생';
-      }
-    });
+    musicPlaying = !musicPlaying;
 
+    if (musicPlaying) {
+        bgm.play();
+        musicToggle.textContent = 'BGM 중지';
+       } else {
+        bgm.pause();
+        bgm.currentTime = 0;
+        musicToggle.textContent = 'BGM 재생';
+        }
+       });
     restartBtn.addEventListener('click', resetGame);
 
     resetGame();
